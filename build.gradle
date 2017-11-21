@@ -1,0 +1,98 @@
+import com.github.jengelman.gradle.plugins.shadow.transformers.ServiceFileTransformer
+
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'application'
+apply plugin: "org.flywaydb.flyway"
+apply plugin: 'com.github.johnrengelman.shadow'
+
+group 'fr.ggautier'
+version '0.1'
+
+sourceCompatibility = 1.8
+mainClassName = "fr.ggautier.recettes.RecipesApplication"
+
+def dropwizard = [
+    version: "1.1.2",
+    config: "src/main/resources/${rootProject.name}-config.yaml"
+]
+
+buildscript {
+    repositories {
+        jcenter()
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath "gradle.plugin.com.boxfuse.client:flyway-release:4.2.0"
+        classpath 'com.github.jengelman.gradle.plugins:shadow:2.0.1'
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile group: 'io.dropwizard', name: 'dropwizard-core', version: dropwizard.version
+    compile group: 'io.dropwizard', name: 'dropwizard-jdbi', version: dropwizard.version
+    compile group: 'io.dropwizard', name: 'dropwizard-validation', version: dropwizard.version
+    compile group: 'io.dropwizard.modules', name: 'dropwizard-flyway', version: '1.1.0-1'
+    compile group: 'io.dropwizard', name: 'dropwizard-hibernate', version: dropwizard.version
+    compile 'ru.vyarus:dropwizard-guicey:4.1.0'
+    compile 'org.postgresql:postgresql:42.1.4'
+
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+    testCompile group: 'org.assertj', name: 'assertj-core', version: '3.6.1'
+    testCompile 'nl.jqno.equalsverifier:equalsverifier:2.2.1'
+}
+
+jar {
+    manifest {
+        attributes("Implementation-Title": rootProject.name,
+                "Implementation-Version": version)
+    }
+}
+
+shadowJar {
+    transform(ServiceFileTransformer) {
+        exclude 'META-INF/*.DSA'
+        exclude 'META-INF/*.RSA'
+    }
+}
+
+task(dbInfo, type: JavaExec) {
+    description 'Execute the flyway db info command.'
+    main = mainClassName
+    args("db", "info", dropwizard.config)
+    classpath(sourceSets.main.runtimeClasspath)
+}
+
+task(dbMigrate, type: JavaExec) {
+    description 'Execute the flyway db migrate command.'
+    main = mainClassName
+    args("db", "migrate", dropwizard.config)
+    classpath(sourceSets.main.runtimeClasspath)
+}
+
+task(dbClean, type: JavaExec) {
+    description 'Execute the flyway db clean command.'
+    main = mainClassName
+    args("db", "clean", dropwizard.config)
+    classpath(sourceSets.main.runtimeClasspath)
+}
+
+task(dbRepair, type: JavaExec) {
+    description 'Execute the flyway db repair command.'
+    main = mainClassName
+    args("db", "repair", dropwizard.config)
+    classpath(sourceSets.main.runtimeClasspath)
+}
+
+task(dbValidate, type: JavaExec) {
+    description 'Execute the flyway db validate command.'
+    main = mainClassName
+    args("db", "validate", dropwizard.config)
+    classpath(sourceSets.main.runtimeClasspath)
+}

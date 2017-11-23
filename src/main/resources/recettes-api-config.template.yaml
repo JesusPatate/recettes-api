@@ -1,0 +1,25 @@
+database:
+  # the name of your JDBC driver
+  driverClass: org.postgresql.Driver
+  # the username
+  user: ${dbUser}
+  # the password
+  password: ${dbPassword}
+  # the JDBC URL
+  url: ${dbUrl}
+  # any properties specific to your JDBC driver:
+  properties:
+    charSet: UTF-8
+
+logging:
+  level: INFO
+  loggers:
+    "fr.ggautier.recipes": ALL
+    "org.hibernate.SQL": DEBUG
+    "org.glassfish.jersey.logging": DEBUG
+    "org.hibernate.engine.internal.StatisticalLoggingSessionEventListener": WARN
+  appenders:
+    - type: console
+      threshold: ALL
+      timeZone: Europe/Paris
+      target: stdout

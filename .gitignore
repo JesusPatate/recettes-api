@@ -19,6 +19,7 @@
 hs_err_pid*
 
 # IDEA files
+.idea/
 *.iml
 *.ipr
 *.iws

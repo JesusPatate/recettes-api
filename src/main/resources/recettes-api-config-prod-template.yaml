@@ -1,3 +1,11 @@
+server:
+  type: simple
+  applicationContextPath: ${appPath}
+  adminContextPath: ${adminPath}
+  connector:
+    type: http
+    port: ${port}
+
 database:
   # the name of your JDBC driver
   driverClass: org.postgresql.Driver

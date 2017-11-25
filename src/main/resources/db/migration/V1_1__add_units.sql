@@ -1,0 +1,1 @@
+INSERT INTO unit (name) VALUES ('grammes'), ('centilitres'), ('cuillères à café'), ('cuillère à soupe');

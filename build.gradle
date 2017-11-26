@@ -108,3 +108,17 @@ task('buildConfiguration') {
         }
     }
 }
+
+task buildArchive(type: Tar, dependsOn: ['shadowJar', 'buildConfiguration']) {
+    baseName = rootProject.name
+    compression = Compression.GZIP
+
+    into(rootProject.name){
+        into("libs") {
+            from(shadowJar.archivePath)
+        }
+        into("conf") {
+            from("$buildDir/${rootProject.name}-config.yaml")
+        }
+    }
+}

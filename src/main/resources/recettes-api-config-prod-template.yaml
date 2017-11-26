@@ -27,7 +27,11 @@ logging:
     "org.glassfish.jersey.logging": DEBUG
     "org.hibernate.engine.internal.StatisticalLoggingSessionEventListener": WARN
   appenders:
-    - type: console
+    - type: file
+      currentLogFilename: /var/log/recettes-api.log
+      archivedLogFilenamePattern: /var/log/recettes-api-%d.log
+      archivedFileCount: 14
+      maxFileSize: 100MB
+      archive: true
       threshold: ALL
       timeZone: Europe/Paris
-      target: stdout

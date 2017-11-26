@@ -1,20 +1,20 @@
 server:
   type: simple
-  applicationContextPath: ${appPath}
-  adminContextPath: ${adminPath}
+  applicationContextPath: ${APP_PATH}
+  adminContextPath: ${ADMIN_PATH}
   connector:
     type: http
-    port: ${port}
+    port: ${PORT}
 
 database:
   # the name of your JDBC driver
   driverClass: org.postgresql.Driver
   # the username
-  user: ${dbUser}
+  user: ${DB_USER}
   # the password
-  password: ${dbPassword}
+  password: ${DB_PWD}
   # the JDBC URL
-  url: ${dbUrl}
+  url: ${DB_URL}
   # any properties specific to your JDBC driver:
   properties:
     charSet: UTF-8
@@ -23,15 +23,13 @@ logging:
   level: INFO
   loggers:
     "fr.ggautier.recipes": ALL
-    "org.hibernate.SQL": DEBUG
     "org.glassfish.jersey.logging": DEBUG
     "org.hibernate.engine.internal.StatisticalLoggingSessionEventListener": WARN
   appenders:
     - type: file
-      currentLogFilename: /var/log/recettes-api.log
-      archivedLogFilenamePattern: /var/log/recettes-api-%d.log
-      archivedFileCount: 14
-      maxFileSize: 100MB
+      currentLogFilename: ${LOG_FILE}
+      archivedLogFilenamePattern: ${LOG_FILE_PATTERN}
+      archivedFileCount: ${MAX_LOG_FILES}
       archive: true
       threshold: ALL
       timeZone: Europe/Paris

@@ -23,7 +23,7 @@ logging:
   level: INFO
   loggers:
     "fr.ggautier.recipes": ALL
-    "org.hibernate.SQL": DEBUG
+    "org.hibernate.SQL": ALL
     "org.glassfish.jersey.logging": DEBUG
     "org.hibernate.engine.internal.StatisticalLoggingSessionEventListener": WARN
   appenders:

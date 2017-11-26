@@ -102,7 +102,7 @@ task('buildConfiguration') {
         copy {
             from 'src/main/resources'
             into buildDir
-            include "${rootProject.name}-config-prod.template.yaml"
+            include "${rootProject.name}-config-prod-template.yaml"
             rename { file -> "${rootProject.name}-config.yaml" }
             expand(project.properties)
         }

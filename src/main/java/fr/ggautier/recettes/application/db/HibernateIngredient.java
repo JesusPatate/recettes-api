@@ -34,6 +34,27 @@ public class HibernateIngredient implements Ingredient {
         HibernateRecipe recipe;
 
         String name;
+
+        @Override
+        public boolean equals(final Object object) {
+            if (this == object) {
+                return true;
+            }
+
+            if (!(object instanceof HibernateIngredientPK)) {
+                return false;
+            }
+
+            final HibernateIngredientPK other = (HibernateIngredientPK) object;
+
+            return Objects.equals(this.recipe, other.recipe) &&
+                    Objects.equals(this.name, other.name);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(this.recipe, this.name);
+        }
     }
 
     /**

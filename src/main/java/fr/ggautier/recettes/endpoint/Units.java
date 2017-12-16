@@ -1,4 +1,4 @@
-package fr.ggautier.recettes.endpoint.representation;
+package fr.ggautier.recettes.endpoint;
 
 
 import java.util.Set;
@@ -14,6 +14,8 @@ import javax.ws.rs.core.Response;
 
 import fr.ggautier.recettes.application.domain.Unit;
 import fr.ggautier.recettes.application.domain.UnitRepository;
+import fr.ggautier.recettes.endpoint.representation.UnitMapper;
+import fr.ggautier.recettes.endpoint.representation.UnitRepresentation;
 import io.dropwizard.hibernate.UnitOfWork;
 
 @Path("/units")

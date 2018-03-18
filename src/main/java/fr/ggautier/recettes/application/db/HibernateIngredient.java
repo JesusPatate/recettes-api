@@ -1,19 +1,18 @@
 package fr.ggautier.recettes.application.db;
 
+import java.io.Serializable;
 import java.util.Objects;
 import java.util.Optional;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ForeignKey;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -22,18 +21,47 @@ import fr.ggautier.recettes.application.domain.Unit;
 
 @Entity
 @Table(name = "ingredient")
+@IdClass(HibernateIngredient.HibernateIngredientPK.class)
 @SuppressWarnings("WeakerAccess")
 public class HibernateIngredient implements Ingredient {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Integer id;
+    /**
+     * @linkplain http://docs.jboss.org/hibernate/orm/5.2/userguide/html_single/Hibernate_User_Guide.html#identifiers-composite-nonaggregated
+     */
+    @SuppressWarnings("unused")
+    public static class HibernateIngredientPK implements Serializable {
+
+        HibernateRecipe recipe;
+
+        String name;
+
+        @Override
+        public boolean equals(final Object object) {
+            if (this == object) {
+                return true;
+            }
+
+            if (!(object instanceof HibernateIngredientPK)) {
+                return false;
+            }
+
+            final HibernateIngredientPK other = (HibernateIngredientPK) object;
+
+            return Objects.equals(this.recipe, other.recipe) &&
+                    Objects.equals(this.name, other.name);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(this.recipe, this.name);
+        }
+    }
 
     /**
      * The recipe for which the ingredient is needed.
      */
+    @Id
     @ManyToOne
-    @NotNull
     HibernateRecipe recipe;
 
     /**
@@ -41,6 +69,7 @@ public class HibernateIngredient implements Ingredient {
      * The name of the ingredient.
      */
     @Column
+    @Id
     @NotEmpty
     String name;
 
@@ -112,14 +141,6 @@ public class HibernateIngredient implements Ingredient {
         this.name = name;
         this.amount = amount;
         this.unit = unit;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    void setId(Integer id) {
-        this.id = id;
     }
 
     HibernateRecipe getRecipe() {

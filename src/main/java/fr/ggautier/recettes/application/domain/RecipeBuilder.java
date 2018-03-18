@@ -11,15 +11,15 @@ import javax.inject.Inject;
  */
 public abstract class RecipeBuilder {
 
-    protected UUID id = null;
+    protected UUID id;
     protected String title;
     protected boolean hot = false;
     protected boolean dessert = false;
-    protected Integer preparationTime = null;
-    protected Integer cookingTime = null;
-    protected Integer servings = null;
+    protected Integer preparationTime;
+    protected int cookingTime = 0;
+    protected Integer servings;
     protected final List<Ingredient> ingredients = new ArrayList<>();
-    protected String source = null;
+    protected String source;
 
     protected final IngredientFactory ingredientFactory;
 

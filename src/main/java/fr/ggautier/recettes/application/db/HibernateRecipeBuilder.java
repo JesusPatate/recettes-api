@@ -52,20 +52,6 @@ public class HibernateRecipeBuilder extends RecipeBuilder {
 
         hibernateIngredients.forEach(ingredient -> ingredient.setRecipe(recipe));
 
-        this.reset();
-
         return recipe;
-    }
-
-    private void reset() {
-        this.id = null;
-        this.title = null;
-        this.hot = false;
-        this.dessert = false;
-        this.servings = null;
-        this.preparationTime = null;
-        this.cookingTime = null;
-        this.ingredients.clear();
-        this.source = null;
     }
 }

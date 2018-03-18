@@ -11,7 +11,7 @@ import fr.ggautier.recettes.application.domain.RecipeBuilder;
 import fr.ggautier.recettes.application.domain.Unit;
 
 /**
- * TODO Javadoc
+ * Allows to build instances of {@link HibernateRecipe}.
  */
 public class HibernateRecipeBuilder extends RecipeBuilder {
 
@@ -52,6 +52,20 @@ public class HibernateRecipeBuilder extends RecipeBuilder {
 
         hibernateIngredients.forEach(ingredient -> ingredient.setRecipe(recipe));
 
+        this.reset();
+
         return recipe;
+    }
+
+    private void reset() {
+        this.id = null;
+        this.title = null;
+        this.hot = false;
+        this.dessert = false;
+        this.servings = null;
+        this.preparationTime = null;
+        this.cookingTime = null;
+        this.ingredients.clear();
+        this.source = null;
     }
 }

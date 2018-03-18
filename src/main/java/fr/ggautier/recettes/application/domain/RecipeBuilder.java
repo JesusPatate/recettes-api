@@ -7,19 +7,19 @@ import java.util.UUID;
 import javax.inject.Inject;
 
 /**
- * TODO Javadoc
+ * Allows to build instances of {@link Recipe}.
  */
 public abstract class RecipeBuilder {
 
-    protected UUID id;
+    protected UUID id = null;
     protected String title;
     protected boolean hot = false;
     protected boolean dessert = false;
-    protected Integer preparationTime;
-    protected int cookingTime = 0;
-    protected Integer servings;
+    protected Integer preparationTime = null;
+    protected Integer cookingTime = null;
+    protected Integer servings = null;
     protected final List<Ingredient> ingredients = new ArrayList<>();
-    protected String source;
+    protected String source = null;
 
     protected final IngredientFactory ingredientFactory;
 

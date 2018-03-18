@@ -68,8 +68,8 @@ public class HibernateIngredient implements Ingredient {
      * s
      * The name of the ingredient.
      */
-    @Column
     @Id
+    @Column
     @NotEmpty
     String name;
 

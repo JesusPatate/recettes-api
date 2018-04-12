@@ -1,4 +1,4 @@
-package fr.ggautier.recettes.endpoint;
+package fr.ggautier.recettes.api;
 
 import java.util.Collection;
 import java.util.Set;
@@ -8,7 +8,6 @@ import java.util.stream.Collectors;
 import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -19,10 +18,10 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import fr.ggautier.recettes.application.domain.Recipe;
-import fr.ggautier.recettes.application.domain.RecipeRepository;
-import fr.ggautier.recettes.endpoint.representation.RecipeMapper;
-import fr.ggautier.recettes.endpoint.representation.RecipeRepresentation;
+import fr.ggautier.recettes.core.db.RecipeDAO;
+import fr.ggautier.recettes.core.domain.Recipe;
+import fr.ggautier.recettes.api.representation.RecipeMapper;
+import fr.ggautier.recettes.api.representation.RecipeRepresentation;
 import io.dropwizard.hibernate.UnitOfWork;
 
 @Path("/recipes")
@@ -30,12 +29,12 @@ import io.dropwizard.hibernate.UnitOfWork;
 @Produces(MediaType.APPLICATION_JSON)
 public class Recipes {
 
-    private final RecipeRepository repository;
+    private final RecipeDAO repository;
 
     private final RecipeMapper mapper;
 
     @Inject
-    public Recipes(final RecipeRepository repository, final RecipeMapper mapper) {
+    public Recipes(final RecipeDAO repository, final RecipeMapper mapper) {
         this.repository = repository;
         this.mapper = mapper;
     }
@@ -48,7 +47,7 @@ public class Recipes {
                 .map(this.mapper::toRepresentation)
                 .collect(Collectors.toSet());
 
-        return Response.ok(recipes, MediaType.APPLICATION_JSON_TYPE)
+        return Response.ok(representations, MediaType.APPLICATION_JSON_TYPE)
                 .header("Access-Control-Allow-Origin", "*").build();
     }
 
@@ -68,11 +67,7 @@ public class Recipes {
     @DELETE
     @Path("/{recipeId}")
     @UnitOfWork
-    public Response delete(
-            @PathParam("recipeId")
-            @Pattern(regexp = "([a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12})")
-            final String id) {
-
+    public Response delete(@PathParam("recipeId") final String id) {
         final boolean deleted = this.repository.delete(UUID.fromString(id));
         final Response response;
 

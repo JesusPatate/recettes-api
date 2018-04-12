@@ -1,4 +1,4 @@
-package fr.ggautier.recettes.endpoint;
+package fr.ggautier.recettes.api;
 
 
 import java.util.Set;
@@ -12,10 +12,10 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import fr.ggautier.recettes.application.domain.Unit;
-import fr.ggautier.recettes.application.domain.UnitRepository;
-import fr.ggautier.recettes.endpoint.representation.UnitMapper;
-import fr.ggautier.recettes.endpoint.representation.UnitRepresentation;
+import fr.ggautier.recettes.api.representation.UnitMapper;
+import fr.ggautier.recettes.api.representation.UnitRepresentation;
+import fr.ggautier.recettes.core.db.UnitDAO;
+import fr.ggautier.recettes.core.domain.Unit;
 import io.dropwizard.hibernate.UnitOfWork;
 
 @Path("/units")
@@ -23,28 +23,28 @@ import io.dropwizard.hibernate.UnitOfWork;
 @Produces(MediaType.APPLICATION_JSON)
 public class Units {
 
-    private final UnitRepository repository;
+    private final UnitDAO dao;
 
     private final UnitMapper mapper;
 
     /**
      * Creates a new resource.
      *
-     * @param repository
+     * @param dao
      *         to retrieve units
      * @param mapper
      *         to build representations of units
      */
     @Inject
-    public Units(final UnitRepository repository, final UnitMapper mapper) {
-        this.repository = repository;
+    public Units(final UnitDAO dao, final UnitMapper mapper) {
+        this.dao = dao;
         this.mapper = mapper;
     }
 
     @GET
     @UnitOfWork
     public Response getAll() {
-        final Set<? extends Unit> units = this.repository.getAll();
+        final Set<Unit> units = this.dao.getAll();
         final Set<UnitRepresentation> representations = units.stream()
                 .map(this.mapper::toRepresentation)
                 .collect(Collectors.toSet());

@@ -1,4 +1,4 @@
-package fr.ggautier.recettes.application.db;
+package fr.ggautier.recettes.core.db;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,14 +9,13 @@ import javax.inject.Inject;
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 
-import fr.ggautier.recettes.application.domain.Recipe;
-import fr.ggautier.recettes.application.domain.RecipeRepository;
+import fr.ggautier.recettes.core.domain.Recipe;
 import io.dropwizard.hibernate.AbstractDAO;
 
 /**
- * TODO Javadoc
+ * Allows to manage recipes in the database.
  */
-public class HibernateRecipeDAO extends AbstractDAO<HibernateRecipe> implements RecipeRepository {
+public class RecipeDAO extends AbstractDAO<Recipe> {
 
     /**
      * Creates a new DAO.
@@ -25,26 +24,23 @@ public class HibernateRecipeDAO extends AbstractDAO<HibernateRecipe> implements 
      *         A session provider
      */
     @Inject
-    public HibernateRecipeDAO(final SessionFactory sessionFactory) {
+    public RecipeDAO(final SessionFactory sessionFactory) {
         super(sessionFactory);
     }
 
-    @Override
     public List<Recipe> getAllRecipes() {
         final Criteria criteria = this.criteria();
-        final List<HibernateRecipe> hibernateRecipes = this.list(criteria);
+        final List<Recipe> Recipes = this.list(criteria);
 
-        return new ArrayList<>(hibernateRecipes);
+        return new ArrayList<>(Recipes);
     }
 
-    @Override
     public void store(final Recipe recipe) {
-        this.currentSession().save(recipe);
+        this.currentSession().saveOrUpdate(recipe);
     }
 
-    @Override
     public boolean delete(final UUID id) {
-        final HibernateRecipe recipe = this.currentSession().find(HibernateRecipe.class, id);
+        final Recipe recipe = this.currentSession().find(Recipe.class, id);
         this.currentSession().delete(recipe);
         return true;
     }

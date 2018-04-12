@@ -1,6 +1,6 @@
-package fr.ggautier.recettes.endpoint.representation;
+package fr.ggautier.recettes.api.representation;
 
-import fr.ggautier.recettes.application.domain.Unit;
+import fr.ggautier.recettes.core.domain.Unit;
 
 /**
  * Allows to convert a {@link Unit} into a {@link UnitRepresentation}.

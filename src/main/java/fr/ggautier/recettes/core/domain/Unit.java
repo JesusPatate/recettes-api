@@ -1,15 +1,13 @@
-package fr.ggautier.recettes.application.db;
+package fr.ggautier.recettes.core.domain;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import fr.ggautier.recettes.application.domain.Unit;
-
 @Entity
 @Table(name = "unit")
 @SuppressWarnings("WeakerAccess")
-public class HibernateUnit implements Unit {
+public class Unit {
 
     @Id
     Integer id;

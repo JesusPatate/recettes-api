@@ -1,4 +1,4 @@
-package fr.ggautier.recettes.endpoint.representation;
+package fr.ggautier.recettes.api.representation;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

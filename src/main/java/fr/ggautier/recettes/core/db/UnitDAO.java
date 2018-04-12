@@ -1,4 +1,4 @@
-package fr.ggautier.recettes.application.db;
+package fr.ggautier.recettes.core.db;
 
 import java.util.HashSet;
 import java.util.List;
@@ -11,14 +11,13 @@ import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 
-import fr.ggautier.recettes.application.domain.Unit;
-import fr.ggautier.recettes.application.domain.UnitRepository;
+import fr.ggautier.recettes.core.domain.Unit;
 import io.dropwizard.hibernate.AbstractDAO;
 
 /**
- * TODO Javadoc
+ * Allows to manage units in the database.
  */
-public class HibernateUnitDAO extends AbstractDAO<HibernateUnit> implements UnitRepository {
+public class UnitDAO extends AbstractDAO<Unit>{
 
     /**
      * Creates a new DAO.
@@ -27,20 +26,18 @@ public class HibernateUnitDAO extends AbstractDAO<HibernateUnit> implements Unit
      *         A session provider
      */
     @Inject
-    HibernateUnitDAO(final SessionFactory sessionFactory) {
+    UnitDAO(final SessionFactory sessionFactory) {
         super(sessionFactory);
     }
 
-    @Override
     public Set<Unit> getAll() {
         final Criteria criteria = this.criteria();
-        final List<HibernateUnit> results = this.list(criteria);
+        final List<Unit> results = this.list(criteria);
 
         return new HashSet<>(results);
     }
 
-    @Override
-    public Optional<HibernateUnit> get(final int id) {
+    public Optional<Unit> get(final int id) {
         final Criteria criteria = this.criteria()
                 .add(Restrictions.eq("id", id));
 

@@ -1,4 +1,4 @@
-package fr.ggautier.recettes.endpoint.representation;
+package fr.ggautier.recettes.api.representation;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -7,6 +7,7 @@ import javax.validation.constraints.Min;
 
 import org.hibernate.validator.constraints.NotBlank;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -18,8 +19,10 @@ public class IngredientRepresentation {
     private final String name;
 
     @Min(0)
+    @JsonProperty("amount")
     private final Integer amount;
 
+    @JsonProperty("unitId")
     private final Integer unitId;
 
     /**
@@ -29,12 +32,12 @@ public class IngredientRepresentation {
      * @param amount The amount used in the recipe
      * @param unitId The identifier of the unit in which the amount is expressed
      */
-    public IngredientRepresentation(
+    IngredientRepresentation(
             @JsonProperty("name") final String name,
             @JsonProperty("amount") final Integer amount,
             @JsonProperty("unit") final Integer unitId) {
 
-        this.name = name;
+        this.name = name.trim();
         this.amount = amount;
         this.unitId = unitId;
     }
@@ -43,11 +46,13 @@ public class IngredientRepresentation {
         return this.name;
     }
 
-    public Optional<Integer> getAmount() {
+    @JsonIgnore
+    Optional<Integer> getAmount() {
         return Optional.ofNullable(this.amount);
     }
 
-    public Optional<Integer> getUnitId() {
+    @JsonIgnore
+    Optional<Integer> getUnitId() {
         return Optional.ofNullable(this.unitId);
     }
 

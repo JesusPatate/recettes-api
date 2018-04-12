@@ -7,10 +7,7 @@ import javax.servlet.FilterRegistration;
 
 import org.eclipse.jetty.servlets.CrossOriginFilter;
 
-import fr.ggautier.recettes.application.MainModule;
-import fr.ggautier.recettes.application.db.HibernateIngredient;
-import fr.ggautier.recettes.application.db.HibernateRecipe;
-import fr.ggautier.recettes.application.db.HibernateUnit;
+import fr.ggautier.recettes.core.MainModule;
 import io.dropwizard.Application;
 import io.dropwizard.Configuration;
 import io.dropwizard.db.DataSourceFactory;
@@ -36,9 +33,9 @@ public final class RecipesApplication extends Application<RecipesConfiguration> 
     public void initialize(final Bootstrap<RecipesConfiguration> bootstrap) {
         final HibernateBundle<RecipesConfiguration> hibernateBundle =
                 new HibernateBundle<RecipesConfiguration>(
-                        HibernateRecipe.class,
-                        HibernateIngredient.class,
-                        HibernateUnit.class) {
+                        fr.ggautier.recettes.core.domain.Recipe.class,
+                        fr.ggautier.recettes.core.domain.Ingredient.class,
+                        fr.ggautier.recettes.core.domain.Unit.class) {
 
                     @Override
                     public PooledDataSourceFactory getDataSourceFactory(final RecipesConfiguration configuration) {

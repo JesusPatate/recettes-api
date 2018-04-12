@@ -3,11 +3,9 @@ package fr.ggautier.recettes.core.domain;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.Set;
 import java.util.UUID;
 
 import javax.persistence.CollectionTable;
@@ -16,8 +14,6 @@ import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -224,7 +220,7 @@ public final class Recipe {
     @NotEmpty
     @ElementCollection
     @CollectionTable(name = "ingredient")
-    Set<Ingredient> ingredients = new HashSet<>();
+    List<Ingredient> ingredients = new ArrayList<>();
 
     /**
      * The preparation time (in minutes) of the recipe.
@@ -250,10 +246,9 @@ public final class Recipe {
     /**
      * Comments on the recipe.
      */
-    @Column(name = "contents")
     @ElementCollection
-//    @CollectionTable(name = "comment", joinColumns = @JoinColumn(name = "recipe_id"))
-    @JoinTable(name = "comment", joinColumns = @JoinColumn(name = "recipe_id"))
+    @CollectionTable(name = "comment")
+    @Column(name = "contents")
     @Cascade(CascadeType.ALL)
     List<String> comments = new ArrayList<>();
 
@@ -349,7 +344,7 @@ public final class Recipe {
      * Returns a list of the ingredients required in the recipe.
      */
     public List<Ingredient> getIngredients() {
-        return Collections.unmodifiableList(new ArrayList<>(this.ingredients));
+        return Collections.unmodifiableList(this.ingredients);
     }
 
     /**

@@ -440,6 +440,8 @@ public final class Recipe {
      * Setter used by Hibernate.
      *
      * @param id Unique identifier
+     *
+     * @deprecated This method is intended for Hibernate only and must not be used
      */
     protected void setId(final UUID id) {
         this.id = id;
@@ -449,6 +451,8 @@ public final class Recipe {
      * Setter used by Hibernate.
      *
      * @param ingredients Ingredients needed to make the recipe
+     *
+     * @deprecated This method is intended for Hibernate only and must not be used
      */
     protected void setIngredients(final Collection<Ingredient> ingredients) {
         this.ingredients.addAll(ingredients);
@@ -458,6 +462,8 @@ public final class Recipe {
      * Setter used by Hibernate.
      *
      * @param comments Comments on the recipe
+     *
+     * @deprecated This method is intended for Hibernate only and must not be used
      */
     protected void setComments(final List<String> comments) {
         this.comments = comments;

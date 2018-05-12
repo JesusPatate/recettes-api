@@ -13,7 +13,6 @@ import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class RecipeRepresentation {
@@ -82,8 +81,8 @@ public class RecipeRepresentation {
             @JsonProperty("ingredients") final Set<IngredientRepresentation> ingredients,
             @JsonProperty("source") final String source) {
 
-        this.id = id.trim();
-        this.title = title.trim();
+        this.id = id != null ? id.trim() : null;
+        this.title = title != null ? title.trim() : null;
         this.hot = hot;
         this.dessert = dessert;
         this.servings = servings;
@@ -91,7 +90,7 @@ public class RecipeRepresentation {
         this.cookingTime = cookingTime;
         this.source = source.trim();
 
-        if (this.ingredients != null) {
+        if (ingredients != null) {
             this.ingredients.addAll(ingredients);
         }
     }

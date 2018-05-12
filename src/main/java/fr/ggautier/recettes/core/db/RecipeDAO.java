@@ -1,6 +1,5 @@
 package fr.ggautier.recettes.core.db;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -8,6 +7,7 @@ import javax.inject.Inject;
 
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Order;
 
 import fr.ggautier.recettes.core.domain.Recipe;
 import io.dropwizard.hibernate.AbstractDAO;
@@ -29,10 +29,10 @@ public class RecipeDAO extends AbstractDAO<Recipe> {
     }
 
     public List<Recipe> getAllRecipes() {
-        final Criteria criteria = this.criteria();
-        final List<Recipe> Recipes = this.list(criteria);
+        final Criteria criteria = this.criteria()
+                .addOrder(Order.asc("title"));
 
-        return new ArrayList<>(Recipes);
+        return this.list(criteria);
     }
 
     public void store(final Recipe recipe) {

@@ -53,12 +53,13 @@ public class Recipes {
 
     @POST
     @UnitOfWork
-    public Response store(@NotNull @Valid final RecipeRepresentation representation) {
-        final Recipe recipe = this.mapper.toRecipe(representation);
+    public Response store(@NotNull @Valid final RecipeRepresentation in) {
+        final Recipe recipe = this.mapper.toRecipe(in);
         this.dao.store(recipe);
+        final RecipeRepresentation out = this.mapper.toRepresentation(recipe);
 
         return Response.status(Response.Status.CREATED)
-                .entity(representation)
+                .entity(out)
                 .type(MediaType.APPLICATION_JSON_TYPE)
                 .header("Access-Control-Allow-Origin", "*")
                 .build();

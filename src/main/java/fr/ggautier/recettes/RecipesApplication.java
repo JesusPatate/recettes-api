@@ -1,11 +1,15 @@
 package fr.ggautier.recettes;
 
 import java.util.EnumSet;
+import java.util.logging.Level;
 
 import javax.servlet.DispatcherType;
 import javax.servlet.FilterRegistration;
 
 import org.eclipse.jetty.servlets.CrossOriginFilter;
+import org.glassfish.jersey.logging.LoggingFeature;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import fr.ggautier.recettes.core.MainModule;
 import io.dropwizard.Application;
@@ -23,6 +27,8 @@ import ru.vyarus.dropwizard.guice.GuiceBundle;
  * Application's entry point.
  */
 public final class RecipesApplication extends Application<RecipesConfiguration> {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(RecipesApplication.class);
 
     @Override
     public String getName() {
@@ -68,6 +74,12 @@ public final class RecipesApplication extends Application<RecipesConfiguration> 
     @Override
     public void run(final RecipesConfiguration configuration, final Environment environment) throws Exception {
         this.configureCors(environment);
+
+        if (LOGGER.isDebugEnabled()) {
+            environment.jersey().register(new LoggingFeature(
+                    java.util.logging.Logger.getLogger(LoggingFeature.DEFAULT_LOGGER_NAME),
+                    Level.FINE, LoggingFeature.Verbosity.PAYLOAD_ANY, Integer.MAX_VALUE));
+        }
     }
 
     public static void main(final String[] args) throws Exception {

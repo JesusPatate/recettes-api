@@ -12,7 +12,6 @@ import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
@@ -182,7 +181,6 @@ public final class Recipe {
      * The identifier of the recipe.
      */
     @Id
-    @GeneratedValue
     @NotNull
     UUID id;
 

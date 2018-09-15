@@ -1,4 +1,4 @@
-package fr.ggautier.recettes.api.representation;
+package fr.ggautier.recettes.api.representation.api;
 
 import java.util.Set;
 import java.util.UUID;

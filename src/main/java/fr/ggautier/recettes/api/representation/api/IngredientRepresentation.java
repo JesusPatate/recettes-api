@@ -1,4 +1,4 @@
-package fr.ggautier.recettes.api.representation;
+package fr.ggautier.recettes.api.representation.api;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -7,22 +7,22 @@ import javax.validation.constraints.Min;
 
 import org.hibernate.validator.constraints.NotBlank;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * A representation of an ingredient used in a recipe.
  */
-public class IngredientRepresentation {
+class IngredientRepresentation {
 
     @NotBlank
+    @JsonProperty
     private final String name;
 
     @Min(0)
-    @JsonProperty("amount")
+    @JsonProperty
     private final Integer amount;
 
-    @JsonProperty("unitId")
+    @JsonProperty
     private final Integer unitId;
 
     /**
@@ -37,21 +37,19 @@ public class IngredientRepresentation {
             @JsonProperty("amount") final Integer amount,
             @JsonProperty("unit") final Integer unitId) {
 
-        this.name = name.trim();
+        this.name = name != null ? name.trim() : null;
         this.amount = amount;
         this.unitId = unitId;
     }
 
-    public String getName() {
+    String getName() {
         return this.name;
     }
 
-    @JsonIgnore
     Optional<Integer> getAmount() {
         return Optional.ofNullable(this.amount);
     }
 
-    @JsonIgnore
     Optional<Integer> getUnitId() {
         return Optional.ofNullable(this.unitId);
     }

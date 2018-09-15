@@ -1,4 +1,4 @@
-package fr.ggautier.recettes.api.representation;
+package fr.ggautier.recettes.api.representation.api;
 
 import java.util.HashSet;
 import java.util.Optional;
@@ -8,7 +8,6 @@ import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -18,44 +17,42 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class RecipeRepresentation {
 
     @Pattern(regexp = "^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$") // UUID v4
-    @JsonProperty("id")
+    @JsonProperty
     private final String id;
 
     @NotBlank
-    @JsonProperty("title")
+    @JsonProperty
     private final String title;
 
     @NotNull
-    @JsonProperty("hot")
+    @JsonProperty
     private final Boolean hot;
 
     @NotNull
-    @JsonProperty("dessert")
+    @JsonProperty
     private final Boolean dessert;
 
     @NotNull
     @Min(1)
-    @JsonProperty("servings")
+    @JsonProperty
     private final Integer servings;
 
     @NotEmpty
     @Valid
-    @JsonProperty("ingredients")
+    @JsonProperty
     private final Set<IngredientRepresentation> ingredients = new HashSet<>();
 
     @NotNull
     @Min(0)
-    @JsonProperty("preparationTime")
+    @JsonProperty
     private final Integer preparationTime;
 
     @NotNull
     @Min(0)
-    @JsonProperty("cookingTime")
+    @JsonProperty
     private final Integer cookingTime;
 
-    @Size(min = 1)
-    @Pattern(regexp = "[^\\s]+(\\s+[^\\s]+)*")
-    @JsonProperty("source")
+    @JsonProperty
     private final String source;
 
     /**
@@ -89,7 +86,7 @@ public class RecipeRepresentation {
         this.servings = servings;
         this.preparationTime = preparationTime;
         this.cookingTime = cookingTime;
-        this.source = source.trim();
+        this.source = source != null ? source.trim() : null;
 
         if (ingredients != null) {
             this.ingredients.addAll(ingredients);

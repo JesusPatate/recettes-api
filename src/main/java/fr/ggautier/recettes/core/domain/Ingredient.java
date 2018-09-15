@@ -30,22 +30,25 @@ public class Ingredient {
         /**
          * Sets the name of the ingredient.
          */
-        public void setName(final String name) {
+        public Builder setName(final String name) {
             this.name = name;
+            return this;
         }
 
         /**
          * Sets the amount required in the recipe.
          */
-        public void setAmount(final int amount) {
+        public Builder setAmount(final int amount) {
             this.amount = amount;
+            return this;
         }
 
         /**
          * Sets the unit in which the amount is expressed.
          */
-        public void setUnit(final Unit unit) {
+        public Builder setUnit(final Unit unit) {
             this.unit = unit;
+            return this;
         }
 
         /**

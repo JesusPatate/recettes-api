@@ -12,8 +12,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import fr.ggautier.recettes.api.representation.UnitMapper;
-import fr.ggautier.recettes.api.representation.UnitRepresentation;
+import fr.ggautier.recettes.api.representation.api.UnitMapper;
+import fr.ggautier.recettes.api.representation.api.UnitRepresentation;
 import fr.ggautier.recettes.core.db.UnitDAO;
 import fr.ggautier.recettes.core.domain.Unit;
 import io.dropwizard.hibernate.UnitOfWork;

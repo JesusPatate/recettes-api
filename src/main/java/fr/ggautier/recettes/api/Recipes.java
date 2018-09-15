@@ -15,13 +15,15 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import fr.ggautier.recettes.core.db.RecipeDAO;
 import fr.ggautier.recettes.core.domain.Recipe;
-import fr.ggautier.recettes.api.representation.RecipeMapper;
-import fr.ggautier.recettes.api.representation.RecipeRepresentation;
+import fr.ggautier.recettes.api.representation.api.RecipeMapper;
+import fr.ggautier.recettes.api.representation.api.RecipeRepresentation;
+import fr.ggautier.recettes.core.services.RecipeManager;
 import io.dropwizard.hibernate.UnitOfWork;
 
 @Path("/recipes")
@@ -29,12 +31,17 @@ import io.dropwizard.hibernate.UnitOfWork;
 @Produces(MediaType.APPLICATION_JSON)
 public class Recipes {
 
+    private final RecipeManager recipeManager;
+
     private final RecipeDAO dao;
 
     private final RecipeMapper mapper;
 
     @Inject
-    public Recipes(final RecipeDAO dao, final RecipeMapper mapper) {
+    public Recipes(final RecipeManager recipeManager, final RecipeDAO dao,
+            final RecipeMapper mapper) {
+
+        this.recipeManager = recipeManager;
         this.dao = dao;
         this.mapper = mapper;
     }
@@ -42,7 +49,7 @@ public class Recipes {
     @GET
     @UnitOfWork
     public Response getAll() {
-        final List<Recipe> recipes = this.dao.getAllRecipes();
+        final List<Recipe> recipes = this.recipeManager.getAll();
         final List<RecipeRepresentation> representations = recipes.stream()
                 .map(this.mapper::toRepresentation)
                 .collect(Collectors.toList());
@@ -51,27 +58,13 @@ public class Recipes {
                 .header("Access-Control-Allow-Origin", "*").build();
     }
 
-    @POST
-    @UnitOfWork
-    public Response store(@NotNull @Valid final RecipeRepresentation in) {
-        final Recipe recipe = this.mapper.toRecipe(in);
-        this.dao.store(recipe);
-        final RecipeRepresentation out = this.mapper.toRepresentation(recipe);
-
-        return Response.status(Response.Status.CREATED)
-                .entity(out)
-                .type(MediaType.APPLICATION_JSON_TYPE)
-                .header("Access-Control-Allow-Origin", "*")
-                .build();
-    }
-
     @PUT
     @UnitOfWork
-    public Response update(@NotNull @Valid final RecipeRepresentation representation) {
+    public Response store(@NotNull @Valid final RecipeRepresentation representation) {
         final Recipe recipe = this.mapper.toRecipe(representation);
-        this.dao.store(recipe);
+        this.recipeManager.store(recipe);
 
-        return Response.status(Response.Status.CREATED)
+        return Response.status(Response.Status.OK)
                 .entity(representation)
                 .type(MediaType.APPLICATION_JSON_TYPE)
                 .header("Access-Control-Allow-Origin", "*")
@@ -92,5 +85,19 @@ public class Recipes {
         }
 
         return response;
+    }
+
+    @POST
+    @Path("/search")
+    @Consumes(MediaType.TEXT_PLAIN)
+    @UnitOfWork(transactional = false)
+    public Response search(@QueryParam("value") final String value) {
+        final List<Recipe> recipes = this.recipeManager.search(value);
+        final List<RecipeRepresentation> representations = recipes.stream()
+                .map(this.mapper::toRepresentation)
+                .collect(Collectors.toList());
+
+        return Response.ok(representations, MediaType.APPLICATION_JSON_TYPE)
+                .header("Access-Control-Allow-Origin", "*").build();
     }
 }

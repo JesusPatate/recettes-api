@@ -1,15 +1,20 @@
-package fr.ggautier.recettes.api.representation;
+package fr.ggautier.recettes.api.representation.es;
 
 import javax.inject.Inject;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import fr.ggautier.recettes.core.db.UnitDAO;
 import fr.ggautier.recettes.core.domain.Ingredient;
 import fr.ggautier.recettes.core.domain.Unit;
 
 /**
- * Allows to convert a {@link Ingredient} into a {@link IngredientRepresentation}.
+ * Allows to convert an {@link Ingredient} into a {@link IngredientRepresentation}.
  */
 class IngredientMapper {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(IngredientMapper.class);
 
     private final Ingredient.Builder builder;
     private final UnitDAO unitDAO;
@@ -39,11 +44,26 @@ class IngredientMapper {
      */
     Ingredient fromRepresentation(final IngredientRepresentation representation) {
         final String name = representation.getName();
+        final Integer amount = representation.getAmount();
+        final Integer unitId = representation.getUnitId();
 
         this.builder.setName(name);
 
-        representation.getAmount().ifPresent(builder::setAmount);
-        representation.getUnitId().map(this::getUnit).ifPresent(builder::setUnit);
+        if (amount != null) {
+            this.builder.setAmount(amount);
+        }
+
+        Unit unit = null;
+
+        if (unitId != null) {
+            try {
+                unit = this.getUnit(unitId);
+            } catch (final IllegalArgumentException exception) {
+                LOGGER.error("Unknown unit id ({})", unitId, exception);
+            }
+        }
+
+        this.builder.setUnit(unit);
 
         return this.builder.build();
     }

@@ -2,7 +2,7 @@ package fr.ggautier.recettes.core;
 
 import org.hibernate.SessionFactory;
 
-import fr.ggautier.recettes.RecipesConfiguration;
+import fr.ggautier.recettes.core.config.RecipesConfiguration;
 import io.dropwizard.hibernate.HibernateBundle;
 import ru.vyarus.dropwizard.guice.module.support.DropwizardAwareModule;
 

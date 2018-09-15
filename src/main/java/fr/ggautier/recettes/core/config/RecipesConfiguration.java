@@ -1,4 +1,4 @@
-package fr.ggautier.recettes;
+package fr.ggautier.recettes.core.config;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -10,7 +10,7 @@ import io.dropwizard.db.DataSourceFactory;
 import io.dropwizard.flyway.FlywayFactory;
 
 /**
- * Application's configuration.
+ * La configuration de l'application.
  */
 public class RecipesConfiguration extends Configuration {
 
@@ -22,6 +22,9 @@ public class RecipesConfiguration extends Configuration {
     @Valid
     private final FlywayFactory flyway;
 
+    @Valid
+    private final ElasticsearchConfiguration elasticsearch;
+
     /**
      * Instancie une nouvelle configuration.
      *
@@ -30,10 +33,12 @@ public class RecipesConfiguration extends Configuration {
      */
     public RecipesConfiguration(
             @JsonProperty("database") final DataSourceFactory database,
-            @JsonProperty("flyway") final FlywayFactory flyway) {
+            @JsonProperty("flyway") final FlywayFactory flyway,
+            @JsonProperty("elasticsearch") final ElasticsearchConfiguration elasticsearch) {
 
         this.database = database != null ? database : new DataSourceFactory();
         this.flyway = flyway != null ? flyway : new FlywayFactory();
+        this.elasticsearch = elasticsearch;
     }
 
     public DataSourceFactory getDataSourceFactory() {
@@ -42,5 +47,9 @@ public class RecipesConfiguration extends Configuration {
 
     public FlywayFactory getFlywayFactory() {
         return this.flyway;
+    }
+
+    public ElasticsearchConfiguration getElasticsearch() {
+        return elasticsearch;
     }
 }

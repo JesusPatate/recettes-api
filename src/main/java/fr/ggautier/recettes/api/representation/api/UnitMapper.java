@@ -1,4 +1,4 @@
-package fr.ggautier.recettes.api.representation;
+package fr.ggautier.recettes.api.representation.api;
 
 import fr.ggautier.recettes.core.domain.Unit;
 

@@ -10,7 +10,7 @@ import fr.ggautier.recettes.domain.Unit;
 import fr.ggautier.recettes.domain.Units;
 import fr.ggautier.recettes.spi.db.UnitDAO;
 
-public class UnitRepository implements Units {
+class UnitRepository implements Units {
 
     private final UnitDAO dao;
 

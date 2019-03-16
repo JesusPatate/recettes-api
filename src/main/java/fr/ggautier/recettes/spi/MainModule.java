@@ -7,6 +7,7 @@ import ru.vyarus.dropwizard.guice.module.support.DropwizardAwareModule;
 
 import fr.ggautier.recettes.domain.Recipes;
 import fr.ggautier.recettes.domain.Units;
+import fr.ggautier.recettes.spi.dw.RecipesConfiguration;
 
 /**
  * Dependency injection setup.
@@ -24,7 +25,7 @@ public class MainModule extends DropwizardAwareModule<RecipesConfiguration> {
      * @param hibernateBundle
      *         Bundle for the integration of Hibernate
      */
-    MainModule(final HibernateBundle hibernateBundle) {
+    public MainModule(final HibernateBundle hibernateBundle) {
         this.hibernateBundle = hibernateBundle;
     }
 

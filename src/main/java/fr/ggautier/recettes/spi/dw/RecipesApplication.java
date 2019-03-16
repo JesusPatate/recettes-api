@@ -1,4 +1,4 @@
-package fr.ggautier.recettes.spi;
+package fr.ggautier.recettes.spi.dw;
 
 import io.dropwizard.Application;
 import io.dropwizard.Configuration;
@@ -23,6 +23,7 @@ import java.util.logging.Level;
 import fr.ggautier.recettes.domain.Ingredient;
 import fr.ggautier.recettes.domain.Recipe;
 import fr.ggautier.recettes.domain.Unit;
+import fr.ggautier.recettes.spi.MainModule;
 
 /**
  * Application's entry point.

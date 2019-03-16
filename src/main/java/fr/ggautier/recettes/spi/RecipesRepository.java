@@ -21,7 +21,7 @@ import fr.ggautier.recettes.spi.es.RecipeIndexer;
 @Adapter
 @Repository
 @Singleton
-public class RecipesRepository implements Recipes {
+class RecipesRepository implements Recipes {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RecipesRepository.class);
 
@@ -30,7 +30,7 @@ public class RecipesRepository implements Recipes {
     private final RecipeIndexer indexer;
 
     @Inject
-    public RecipesRepository(final RecipeDAO dao, final RecipeIndexer indexer) {
+    RecipesRepository(final RecipeDAO dao, final RecipeIndexer indexer) {
         this.dao = dao;
         this.indexer = indexer;
     }

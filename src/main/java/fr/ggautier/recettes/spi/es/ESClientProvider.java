@@ -7,8 +7,8 @@ import org.elasticsearch.client.RestHighLevelClient;
 
 import javax.inject.Singleton;
 
-import fr.ggautier.recettes.spi.ElasticsearchConfiguration;
-import fr.ggautier.recettes.spi.RecipesConfiguration;
+import fr.ggautier.recettes.spi.dw.ElasticsearchConfiguration;
+import fr.ggautier.recettes.spi.dw.RecipesConfiguration;
 
 /**
  * TODO Javadoc

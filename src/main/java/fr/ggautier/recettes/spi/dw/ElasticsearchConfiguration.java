@@ -1,4 +1,4 @@
-package fr.ggautier.recettes.spi;
+package fr.ggautier.recettes.spi.dw;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.validator.constraints.NotBlank;

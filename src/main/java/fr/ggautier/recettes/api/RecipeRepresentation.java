@@ -170,8 +170,8 @@ public class RecipeRepresentation implements RecipeDto {
     }
 
     @Override
-    public Optional<String> getId() {
-        return Optional.ofNullable(this.id);
+    public String getId() {
+        return this.id;
     }
 
     @Override

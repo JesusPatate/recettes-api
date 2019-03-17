@@ -44,8 +44,17 @@ public class RecipesResource {
     }
 
     @PUT
+    @Path("/{recipeId}")
     @UnitOfWork
-    public Response store(@NotNull @Valid final RecipeRepresentation representation) {
+    public Response store(@PathParam("recipeId") final String id,
+                          @NotNull @Valid final RecipeRepresentation representation) {
+
+        if (!id.equals(representation.getId())) {
+            return Response.status(Response.Status.BAD_REQUEST)
+                    .entity("Identifiers do not match")
+                    .build();
+        }
+
         this.recipes.store(representation);
 
         return Response.status(Response.Status.OK)

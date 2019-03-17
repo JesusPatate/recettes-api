@@ -37,17 +37,15 @@ public class RecipeManager {
     }
 
     private Recipe fromDto(final RecipeDto dto) {
+        final UUID id = UUID.fromString(dto.getId());
         final Recipe.Builder builder = new Recipe.Builder()
+                .setId(id)
                 .setTitle(dto.getTitle())
                 .isHot(dto.isHot())
                 .isADessert(dto.isDessert())
                 .setPreparationTime(dto.getPreparationTime())
                 .setCookingTime(dto.getCookingTime())
                 .setServings(dto.getServings());
-
-        dto.getId()
-                .map(UUID::fromString)
-                .ifPresent(builder::setId);
 
         dto.getIngredients()
                 .stream()

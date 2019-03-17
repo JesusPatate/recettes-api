@@ -5,7 +5,7 @@ import java.util.Set;
 
 public interface RecipeDto {
 
-    Optional<String> getId();
+    String getId();
 
     String getTitle();
 

@@ -22,13 +22,13 @@ public class DeleteResponseListener implements ActionListener<DeleteResponse> {
         if (response.getResult() != DocWriteResponse.Result.CREATED ||
                 response.getResult() != DocWriteResponse.Result.UPDATED) {
 
-            LOGGER.warn("Failed to delete recipe {) from Elasticsearch : {}",
-                    request.toString(), response.toString());
+            LOGGER.warn("Failed to delete recipe {} from Elasticsearch : {}",
+                    request.id(), response.toString());
         }
     }
 
     @Override
     public void onFailure(final Exception exception) {
-        LOGGER.warn("Failed to delete recipe {) from Elasticsearch", request.id(), exception);
+        LOGGER.warn("Failed to delete recipe {} from Elasticsearch", request.id(), exception);
     }
 }

@@ -29,6 +29,6 @@ public class IndexResponseListener implements ActionListener<IndexResponse> {
 
     @Override
     public void onFailure(final Exception exception) {
-        LOGGER.error("Failed to index recipe {) in Elasticsearch", request.id(), exception);
+        LOGGER.error("Failed to index recipe {} in Elasticsearch", request.id(), exception);
     }
 }

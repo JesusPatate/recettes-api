@@ -1,4 +1,4 @@
-package fr.ggautier.recettes.spi.dw;
+package fr.ggautier.recettes.api.configuration;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.dropwizard.Configuration;
@@ -40,11 +40,11 @@ public class RecipesConfiguration extends Configuration {
         this.elasticsearch = elasticsearch;
     }
 
-    DataSourceFactory getDataSourceFactory() {
+    public DataSourceFactory getDataSourceFactory() {
         return this.database;
     }
 
-    FlywayFactory getFlywayFactory() {
+    public FlywayFactory getFlywayFactory() {
         return this.flyway;
     }
 

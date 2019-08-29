@@ -7,7 +7,7 @@ import ru.vyarus.dropwizard.guice.module.support.DropwizardAwareModule;
 
 import fr.ggautier.recettes.domain.Recipes;
 import fr.ggautier.recettes.domain.Units;
-import fr.ggautier.recettes.spi.dw.RecipesConfiguration;
+import fr.ggautier.recettes.api.configuration.RecipesConfiguration;
 
 /**
  * Dependency injection setup.

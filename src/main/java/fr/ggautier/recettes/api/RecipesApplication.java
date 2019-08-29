@@ -1,5 +1,6 @@
-package fr.ggautier.recettes.spi.dw;
+package fr.ggautier.recettes.api;
 
+import fr.ggautier.recettes.api.configuration.RecipesConfiguration;
 import io.dropwizard.Application;
 import io.dropwizard.Configuration;
 import io.dropwizard.db.DataSourceFactory;

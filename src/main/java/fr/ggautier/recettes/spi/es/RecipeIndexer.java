@@ -25,38 +25,43 @@ import fr.ggautier.recettes.domain.Recipe;
 import fr.ggautier.recettes.spi.exceptions.InternalErrorException;
 
 /**
- * TODO Javadoc
+ * Provides full-text search on recipes.
  */
 public class RecipeIndexer {
 
-    private RestHighLevelClient client;
+    private final ESClientProvider esClientProvider;
 
     private final RecipeMapper recipeMapper;
 
     private final ObjectMapper jsonMapper = new ObjectMapper();
 
+    private RestHighLevelClient esClient = null;
+
     @Inject
     public RecipeIndexer(final ESClientProvider provider, final RecipeMapper recipeMapper) {
-        this.client = provider.getClient();
+        esClientProvider = provider;
         this.recipeMapper = recipeMapper;
     }
 
     public void store(final Recipe recipe) {
+        final RestHighLevelClient client = this.getEsClient();
         final IndexRequest request = this.buildIndexRequest(recipe);
-        this.client.indexAsync(request, RequestOptions.DEFAULT, new IndexResponseListener(request));
+        client.indexAsync(request, RequestOptions.DEFAULT, new IndexResponseListener(request));
     }
 
     public void delete(final String id) {
+        final RestHighLevelClient client = this.getEsClient();
         final DeleteRequest request = new DeleteRequest("recipes", "recipe", id);
-        this.client.deleteAsync(request, RequestOptions.DEFAULT, new DeleteResponseListener(request));
+        client.deleteAsync(request, RequestOptions.DEFAULT, new DeleteResponseListener(request));
     }
 
     public List<Recipe> search(final String value) {
+        final RestHighLevelClient client = this.getEsClient();
         final SearchRequest request = this.buildSearchRequest(value);
         final SearchResponse response;
 
         try {
-            response = this.client.search(request, RequestOptions.DEFAULT);
+            response = client.search(request, RequestOptions.DEFAULT);
         } catch (final IOException exception) {
             throw new InternalErrorException("Failed to request Elasticsearch", exception);
         }
@@ -67,6 +72,14 @@ public class RecipeIndexer {
 
         final List<Recipe> recipes = extractResults(response);
         return recipes;
+    }
+
+    private synchronized RestHighLevelClient getEsClient() {
+        if (this.esClient == null) {
+            this.esClient = this.esClientProvider.getClient();
+        }
+
+        return this.esClient;
     }
 
     private IndexRequest buildIndexRequest(Recipe recipe) {

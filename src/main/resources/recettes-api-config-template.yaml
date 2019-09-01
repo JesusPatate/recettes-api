@@ -19,6 +19,10 @@ database:
   properties:
     charSet: UTF-8
 
+elasticsearch:
+  host: ${esHost)
+  port: ${esPort}
+
 logging:
   level: INFO
   loggers:

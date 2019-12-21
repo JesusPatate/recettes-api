@@ -47,15 +47,20 @@ class RecipesRepository implements Recipes {
         try {
             this.indexer.store(recipe);
         } catch (final Exception exception) {
-            LOGGER.error("An error occurred while indexing the recipe {}",
-                    recipe.getId(), exception);
+            LOGGER.error("An error occurred while indexing the recipe {}", recipe.getId(), exception);
         }
     }
 
     @Override
     public boolean remove(UUID id) {
         final boolean deleted = this.dao.delete(id);
-        this.indexer.delete(id.toString());
+
+        try {
+            this.indexer.delete(id.toString());
+        } catch (final Exception exception) {
+            LOGGER.error("An error occurred while unindexing the recipe {}", id, exception);
+        }
+
         return deleted;
     }
 

@@ -10,7 +10,7 @@ group 'fr.ggautier'
 version '0.1'
 
 sourceCompatibility = 1.8
-mainClassName = "fr.ggautier.recettes.spi.RecipesApplication"
+mainClassName = "fr.ggautier.recettes.api.RecipesApplication"
 
 def dropwizard = [
     version: "1.3.9",
@@ -36,7 +36,7 @@ repositories {
 }
 
 dependencies {
-    compile group: 'fr.ggautier.arch', name: 'annotations', version: '1.0-SNAPSHOT'
+    compile group: 'fr.ggautier', name: 'arch-annotations', version: '1.0-SNAPSHOT'
     compile group: 'io.dropwizard', name: 'dropwizard-core', version: dropwizard.version
     compile group: 'io.dropwizard', name: 'dropwizard-jdbi', version: dropwizard.version
     compile group: 'io.dropwizard', name: 'dropwizard-validation', version: dropwizard.version
